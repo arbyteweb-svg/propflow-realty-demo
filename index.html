@@ -607,6 +607,64 @@ footer{background:#050c18;padding:60px 60px 28px}
     💬 Chat with us — instant reply
   </a>
 </div>
+<script>
+async function submitLead() {
 
+  const firstName = document.querySelector('input[placeholder="John"]').value;
+  const lastName = document.querySelector('input[placeholder="Smith"]').value;
+  const email = document.querySelector('input[type="email"]').value;
+  const phone = document.querySelector('input[type="tel"]').value;
+
+  const selects = document.querySelectorAll('select');
+  const propertyType = selects[0].value;
+  const budget = selects[1].value;
+
+  const location = document.querySelector(
+    'input[placeholder="e.g. Miami, New York, Los Angeles"]'
+  ).value;
+
+  const message = document.querySelector('textarea').value;
+
+  const leadData = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    phone: phone,
+    propertyType: propertyType,
+    budget: budget,
+    preferredLocation: location,
+    message: message,
+    source: "PropFlow Realty Website",
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+
+    const response = await fetch(
+      "https://arbyteweb.app.n8n.cloud/webhook/9f632837-d2cc-457b-990b-0790665b160f",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(leadData)
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Webhook request failed");
+    }
+
+    alert("Thank you! An agent will contact you within 60 seconds.");
+
+  } catch (error) {
+
+    console.error("Webhook Error:", error);
+
+    alert("Something went wrong. Please try again or contact us directly.");
+
+  }
+}
+</script>
 </body>
 </html>
